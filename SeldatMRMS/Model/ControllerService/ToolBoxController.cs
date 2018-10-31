@@ -1,4 +1,5 @@
 ﻿
+using SeldatMRMS.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,18 +13,24 @@ namespace SeldatMRMS
 {
     public class ToolBoxController
     {
+        public CanvasController canvasController ;
+        public Canvas canvas;
         public ToolBoxController(Canvas canvas)
         {
-            canvas.MouseDown += canvas_MouseMove;
+            this.canvas = canvas;
+            canvas.MouseDown += canvas_MouseDown;
         }
-        private void canvas_MouseMove(object sender, MouseEventArgs e)
+        private void canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            Point p = e.GetPosition(canvas);
+            Box box = new Box(canvas) {DisplayRectangle=new BorderShape(p) };
+            CreateControl(box);
         }
-       /* protected GraphicElement GetSelectedElement(Point p)
+        private void CreateControl(GraphicElement el)
         {
-            GraphicElement el = elements.FirstOrDefault(e => e.DisplayRectangle.Contains(p));
-            return el;
-        }*/
+            IServiceManager.canvasController.AddElement(el);
+            el.Draw();
+        }
 
     }
 }

@@ -18,8 +18,7 @@ namespace SeldatMRMS
         public BorderShape(Point location) {
             this.Width = 50;
             this.Height = 50;
-            Canvas.SetLeft(this,location.X);
-            Canvas.SetTop(this, location.Y);
+            Move(location);
             this.Background = new SolidColorBrush(Colors.Red);
             this.location = location;
             this.BorderThickness = new Thickness(1);
@@ -30,8 +29,7 @@ namespace SeldatMRMS
         {
             this.Width = w;
             this.Height = h;
-            Canvas.SetLeft(this, location.X);
-            Canvas.SetTop(this, location.Y);
+            Move(location);
             this.Background = new SolidColorBrush(Colors.Red);
             this.location = location;
             this.BorderThickness = new Thickness(1);
@@ -41,8 +39,7 @@ namespace SeldatMRMS
         {
             this.Width = w;
             this.Height = h;
-            Canvas.SetLeft(this, x);
-            Canvas.SetTop(this, y);
+            Move(new Point(x,y));
             this.Background = new SolidColorBrush(Colors.Red);
             this.location= new Point(x,y);
             this.BorderThickness = new Thickness(1);
@@ -53,6 +50,10 @@ namespace SeldatMRMS
         {
             Canvas.SetLeft(this, p.X);
             Canvas.SetTop(this, p.Y);
+            TranslateTransform ptrans = new TranslateTransform();
+            ptrans.X = -this.Width/2;
+            ptrans.Y = -this.Height/2;
+            this.RenderTransform = ptrans;
             location = p;
         }
         public Point TopLeft()

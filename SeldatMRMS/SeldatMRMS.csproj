@@ -332,6 +332,7 @@
     <Compile Include="Model\RegistrationModels.cs" />
     <Compile Include="Model\RobotModel.cs" />
     <Compile Include="Model\ServiceInterfaces\Interfaces.cs" />
+    <Compile Include="Model\IServiceManager.cs" />
     <Compile Include="Model\SetName.cs">
       <SubType>Form</SubType>
     </Compile>

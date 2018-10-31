@@ -98,6 +98,11 @@ namespace SeldatMRMS
         public MainWindow()
         {
             InitializeComponent();
+
+            
+            IServiceManager.canvasController = new CanvasController(map);
+            ToolBoxController toolController = new ToolBoxController(map);
+            MouseController mouseController = new MouseController(map);
             mouseMove = false;
             //string howtogeek = "TRUNGTRAN";
             RegistrationAgent.mainWindowPointer = this;

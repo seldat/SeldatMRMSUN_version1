@@ -1,4 +1,5 @@
 ﻿using DevExpress.Mvvm.Native;
+using SeldatMRMS.Model;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -74,7 +75,7 @@ namespace SeldatMRMS
             public Action Else { get; set; }
             public Action Debug { get; set; }
         }
-        CanvasController controller;
+        CanvasController canvascontroller;
         Canvas canvas;
         protected Point LastMousePosition { get; set; }
         protected Point CurrentMousePosition { get; set; }
@@ -94,9 +95,7 @@ namespace SeldatMRMS
 
             bp.Name = "testinga";
             router = new List<MouseRouter>();
-            controller = new CanvasController(canvas);
-            controller.AddElement(bp);
-            controller.SelectElement(bp);
+            canvascontroller = IServiceManager.canvasController;
             canvas.MouseDown += (sndr, args) => HandleEvent(new MouseAction(MouseEvent.MouseDown, args));
             canvas.MouseUp += (sndr, args) => HandleEvent(new MouseAction(MouseEvent.MouseUp, args));
             canvas.MouseMove += (sndr, args) => HandleEvent(new MouseAction(MouseEvent.MouseMove, args));
@@ -164,7 +163,7 @@ namespace SeldatMRMS
             {
                 RouteName = RouteName.SelectSingleShapeMouseDown,
                 MouseEvent = MouseEvent.MouseDown,
-                Condition = () => controller.IsRootShapeSelectable(CurrentMousePosition),
+                Condition = () => canvascontroller.IsRootShapeSelectable(CurrentMousePosition),
                 Action = (_) => SelectSingleRootShape()
             });
            /* router.Add(new MouseRouter()
@@ -198,21 +197,31 @@ namespace SeldatMRMS
             //else
             {
                 
-                controller.DragSelectedElements(CurrentMousePosition);
+                canvascontroller.DragSelectedElements(CurrentMousePosition);
                // controller.SnapController.UpdateRunningDelta(delta);
             }
         }
         protected void SelectSingleRootShape()
         {
             // Preserve for undo:
-            List<GraphicElement> selectedShapes = controller.SelectedElements.ToList();
-            GraphicElement el = controller.GetRootShapeAt(CurrentMousePosition);
+            List<GraphicElement> selectedShapes = canvascontroller.SelectedElements.ToList();
+            GraphicElement el = canvascontroller.GetRootShapeAt(CurrentMousePosition);
             if (!selectedShapes.Contains(el))
             {
                 MessageBox.Show(selectedShapes.Count + "");
-                controller.DeselectCurrentSelectedElements();
-                controller.SelectElement(el);
+                canvascontroller.DeselectCurrentSelectedElements();
+                canvascontroller.SelectElement(el);
             }
+        }
+
+        protected void ShowAnchors()
+        {
+            GraphicElement el = canvascontroller.GetRootShapeAt(CurrentMousePosition);
+            Trace.WriteLine("*** ShowAnchors " + el.GetType().Name);
+            el.ShowAnchors = true;
+            controller.Redraw(el);
+            HoverShape = el;
+            controller.SetAnchorCursor(el);
         }
     }
 }

@@ -35,6 +35,7 @@ namespace SeldatMRMS
         public bool isSelected { get; set; }
         public GraphicElement Parent { get; set; }
         protected SolidColorBrush selectionPen;
+        public bool ShowAnchors { get; set; }
         /* protected Bitmap background;
          protected System.Windows.Shapes.Rectangle backgroundRectangle;
          protected Pen selectionPen;
