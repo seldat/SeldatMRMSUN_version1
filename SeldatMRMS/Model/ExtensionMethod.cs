@@ -56,7 +56,10 @@ namespace SeldatMRMS
 
             return inside;
         }
-
+        public static int Sign(this int n)
+        {
+            return Math.Sign(n);
+        }
 
     }
 }

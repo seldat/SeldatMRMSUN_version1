@@ -166,15 +166,31 @@ namespace SeldatMRMS
                 Condition = () => canvascontroller.IsRootShapeSelectable(CurrentMousePosition),
                 Action = (_) => SelectSingleRootShape()
             });
-           /* router.Add(new MouseRouter()
+
+            router.Add(new MouseRouter()
             {
-                RouteName = RouteName.AddSelectedShape,
-                MouseEvent = MouseEvent.MouseUp,
-                Condition = () => serviceManager.Get<IFlowSharpCanvasService>().ActiveController.IsRootShapeSelectable(CurrentMousePosition) &&
-                    serviceManager.Get<IFlowSharpCanvasService>().ActiveController.IsMultiSelect() && !DraggingSelectionBox &&
-                    !serviceManager.Get<IFlowSharpCanvasService>().ActiveController.SelectedElements.Contains(serviceManager.Get<IFlowSharpCanvasService>().ActiveController.GetRootShapeAt(CurrentMousePosition)),
-                Action = (_) => AddShapeToSelectionList(),
-            });*/
+                RouteName = RouteName.ShowAnchors,
+                MouseEvent = MouseEvent.MouseMove,
+                Condition = () => canvascontroller.IsRootShapeSelectable(CurrentMousePosition),
+                Action = (_) => ShowAnchors()
+            });
+            router.Add(new MouseRouter()
+            {
+                RouteName = RouteName.ShowAnchors,
+                MouseEvent = MouseEvent.MouseMove,
+                Condition = () => !canvascontroller.IsRootShapeSelectable(CurrentMousePosition) && HoverShape!=null,
+                Action = (_) => HideAnchors()
+            });
+
+            /* router.Add(new MouseRouter()
+             {
+                 RouteName = RouteName.AddSelectedShape,
+                 MouseEvent = MouseEvent.MouseUp,
+                 Condition = () => serviceManager.Get<IFlowSharpCanvasService>().ActiveController.IsRootShapeSelectable(CurrentMousePosition) &&
+                     serviceManager.Get<IFlowSharpCanvasService>().ActiveController.IsMultiSelect() && !DraggingSelectionBox &&
+                     !serviceManager.Get<IFlowSharpCanvasService>().ActiveController.SelectedElements.Contains(serviceManager.Get<IFlowSharpCanvasService>().ActiveController.GetRootShapeAt(CurrentMousePosition)),
+                 Action = (_) => AddShapeToSelectionList(),
+             });*/
 
         }
         protected void DragShapes()
@@ -214,14 +230,28 @@ namespace SeldatMRMS
             }
         }
 
-        protected void ShowAnchors()
+        public void ShowAnchors()
         {
-            GraphicElement el = canvascontroller.GetRootShapeAt(CurrentMousePosition);
-            Trace.WriteLine("*** ShowAnchors " + el.GetType().Name);
-            el.ShowAnchors = true;
-            controller.Redraw(el);
-            HoverShape = el;
-            controller.SetAnchorCursor(el);
+            try
+            {
+                GraphicElement el = canvascontroller.GetRootShapeAt(CurrentMousePosition);
+                Trace.WriteLine("*** ShowAnchors " + el.GetType().Name);
+                el.ShowAnchors = true;
+                el.DrawAnchors();
+                HoverShape = el;
+            }
+            catch { }
+            //canvascontroller.SetAnchorCursor(el);
+        }
+        protected void HideAnchors()
+        {
+            
+               // GraphicElement el = canvascontroller.GetRootShapeAt(CurrentMousePosition);
+               // Trace.WriteLine("*** ShowAnchors " + el.GetType().Name);
+                canvascontroller.HideAnchors();
+               // HoverShape = el;
+         
+            //canvascontroller.SetAnchorCursor(el);
         }
     }
 }

@@ -32,8 +32,16 @@ namespace SeldatMRMS
         protected bool HasCenterConnections { get; set; }
         protected bool HasLeftRightConnections { get; set; }
         protected bool HasTopBottomConnections { get; set; }
+
+        public virtual void SetConnection(GripType gt, GraphicElement shape) { }
+        public virtual void DisconnectShapeFromConnector(GripType gt) { }
+        public virtual void DetachAll() { }
+        public virtual void UpdateProperties() { }
+        public virtual void RemoveConnection(GripType gt) { }
         public bool isSelected { get; set; }
         public GraphicElement Parent { get; set; }
+        public List<ShapeAnchor> AnchorsList;
+
         protected SolidColorBrush selectionPen;
         public bool ShowAnchors { get; set; }
         /* protected Bitmap background;
@@ -64,6 +72,7 @@ namespace SeldatMRMS
             HasLeftRightConnections = false;
             HasTopBottomConnections = false;
             selectionPen = new SolidColorBrush(Colors.BlueViolet);
+            
         }
         public virtual List<ShapeAnchor> GetAnchors()
         {
@@ -77,14 +86,17 @@ namespace SeldatMRMS
                 newPoint = DisplayRectangle.TopLeft();
                 r =new AnchorBox(DisplayRectangle.TopLeft(), anchorSize);
                 anchors.Add(new ShapeAnchor(ShapeAnchor.GripType.TopLeft, r, Cursors.SizeNWSE));
+
                 newPoint = DisplayRectangle.TopRight();
                 newPoint.Offset(-anchorWidthHeight, 0);
                 r = new AnchorBox(newPoint, anchorSize);
                 anchors.Add(new ShapeAnchor(ShapeAnchor.GripType.TopRight, r, Cursors.SizeNESW));
+
                 newPoint = DisplayRectangle.BottomLeft();
                 newPoint.Offset(0, -anchorWidthHeight);
                 r = new AnchorBox(newPoint, anchorSize);
                 anchors.Add(new ShapeAnchor(ShapeAnchor.GripType.BottomLeft, r, Cursors.SizeNESW));
+
                 newPoint = DisplayRectangle.BottomRight();
                 newPoint.Offset(-anchorWidthHeight, -anchorWidthHeight);
                 r = new AnchorBox(newPoint, anchorSize);
@@ -97,8 +109,9 @@ namespace SeldatMRMS
                 newPoint.Offset(0, -anchorWidthHeight / 2);
                 r = new AnchorBox(newPoint, anchorSize);
                 anchors.Add(new ShapeAnchor(ShapeAnchor.GripType.LeftMiddle, r, Cursors.SizeWE));
+
                 newPoint = DisplayRectangle.RightMiddle();
-                newPoint.Offset(0, -anchorWidthHeight / 2);
+                newPoint.Offset(-anchorWidthHeight, -anchorWidthHeight / 2);
                 r = new AnchorBox(newPoint, anchorSize);
                 anchors.Add(new ShapeAnchor(ShapeAnchor.GripType.RightMiddle, r, Cursors.SizeWE));
             }
@@ -138,21 +151,23 @@ namespace SeldatMRMS
         }
         public virtual void DrawAnchors()
         {
-            GetAnchors().ForEach((a =>
+            
+            AnchorsList.ForEach((a =>
             {
                 a.anchorBox.Move();
                 Draw(a.anchorBox.rectangle);
             }));
         }
-        protected virtual void RemoveAnchors()
+        public virtual void RemoveAnchors()
         {
-            GetAnchors().ForEach((a =>
+            AnchorsList.ForEach((a =>
             {
                 Remove(a.anchorBox.rectangle);
             }));
         }
         protected virtual void Remove(UIElement element)
         {
+          
             this.canvas.Children.Remove(element);
         }
         protected virtual void Draw(UIElement element)

@@ -35,7 +35,11 @@ namespace SeldatMRMS
                  el.UpdatePath();
             });
         }
-  
+        public void HideAnchors()
+        {
+            Console.WriteLine("NNNn = " + elements.Count);
+            elements.ForEach(e => e.RemoveAnchors() );
+        }
 
        
     }

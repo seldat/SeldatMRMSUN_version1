@@ -53,12 +53,11 @@ namespace SeldatMRMS
             TranslateTransform ptrans = new TranslateTransform();
             ptrans.X = -this.Width/2;
             ptrans.Y = -this.Height/2;
-            this.RenderTransform = ptrans;
+           // this.RenderTransform = ptrans;
             location = p;
         }
         public Point TopLeft()
         {
-            
             return new Point(location.X, location.Y);
         }
         public Point TopRight()
@@ -84,7 +83,7 @@ namespace SeldatMRMS
         }
         public Point BottomRight()
         {
-            return new Point(location.X + this.Width, location.X + this.Height);
+            return new Point(location.X + this.Width, location.Y + this.Height);
         }
         public Point BottomMiddle()
         {

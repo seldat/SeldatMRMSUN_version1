@@ -284,6 +284,7 @@
     <Compile Include="Model\CombinationModels.Designer.cs">
       <DependentUpon>CombinationModels.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\ConnectionPoint.cs" />
     <Compile Include="Model\Connectors\Connector.cs" />
     <Compile Include="Model\Connectors\DiagonalConnector.cs" />
     <Compile Include="Model\Connectors\DynamicConnector.cs" />
@@ -356,12 +357,14 @@
     <Compile Include="Model\Shapes\LineShape.cs" />
     <Compile Include="Model\Shapes\ShapeAnchor.cs" />
     <Compile Include="Model\Shapes\VerticalLine.cs" />
+    <Compile Include="Model\SnapController.cs" />
     <Compile Include="Model\StationModel.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Model\StationModel.designer.cs">
       <DependentUpon>StationModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\UndoRedo.cs" />
     <Compile Include="PixelRuler.cs" />
     <Compile Include="CommandSet\CommandSet.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

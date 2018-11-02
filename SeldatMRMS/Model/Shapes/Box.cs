@@ -19,6 +19,7 @@ namespace SeldatMRMS
         public override void Draw()
         {
             canvas.Children.Add(DisplayRectangle);
+            AnchorsList = GetAnchors();
         }
 
     }
