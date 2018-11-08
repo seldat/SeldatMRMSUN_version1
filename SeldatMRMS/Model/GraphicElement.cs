@@ -41,9 +41,11 @@ namespace SeldatMRMS
         public bool isSelected { get; set; }
         public GraphicElement Parent { get; set; }
         public List<ShapeAnchor> AnchorsList;
-
+        public List<Connection> Connections = new List<Connection>();
         protected SolidColorBrush selectionPen;
         public bool ShowAnchors { get; set; }
+        public bool ShowConnectionPoints { get; set; }
+        public virtual bool IsConnector { get { return false; } }
         /* protected Bitmap background;
          protected System.Windows.Shapes.Rectangle backgroundRectangle;
          protected Pen selectionPen;
@@ -59,7 +61,7 @@ namespace SeldatMRMS
         protected bool disposed;
         protected bool removed;
         public virtual void UpdatePath() { }
-        public virtual void UpdateProperties() { }
+    //    public virtual void UpdateProperties() { }
         public GraphicElement(Canvas canvas)
         {
             this.canvas = canvas;
@@ -136,7 +138,40 @@ namespace SeldatMRMS
             Selected = true;
 
         }
+        public virtual List<ConnectionPoint> GetConnectionPoints()
+        {
+            List<ConnectionPoint> connectionPoints = new List<ConnectionPoint>();
 
+            if (HasCornerConnections)
+            {
+                connectionPoints.Add(new ConnectionPoint(GripType.TopLeft, DisplayRectangle.TopLeft()));
+                connectionPoints.Add(new ConnectionPoint(GripType.TopRight, DisplayRectangle.TopRight()));
+                connectionPoints.Add(new ConnectionPoint(GripType.BottomLeft, DisplayRectangle.BottomLeft()));
+                connectionPoints.Add(new ConnectionPoint(GripType.BottomRight, DisplayRectangle.BottomRight()));
+            }
+
+            if (HasCenterConnections)
+            {
+                connectionPoints.Add(new ConnectionPoint(GripType.LeftMiddle, DisplayRectangle.LeftMiddle()));
+                connectionPoints.Add(new ConnectionPoint(GripType.RightMiddle, DisplayRectangle.RightMiddle()));
+                connectionPoints.Add(new ConnectionPoint(GripType.TopMiddle, DisplayRectangle.TopMiddle()));
+                connectionPoints.Add(new ConnectionPoint(GripType.BottomMiddle, DisplayRectangle.BottomMiddle()));
+            }
+
+            if (HasLeftRightConnections)
+            {
+                connectionPoints.Add(new ConnectionPoint(GripType.Start, DisplayRectangle.LeftMiddle()));
+                connectionPoints.Add(new ConnectionPoint(GripType.End, DisplayRectangle.RightMiddle()));
+            }
+
+            if (HasTopBottomConnections)
+            {
+                connectionPoints.Add(new ConnectionPoint(GripType.Start, DisplayRectangle.TopMiddle()));
+                connectionPoints.Add(new ConnectionPoint(GripType.End, DisplayRectangle.BottomMiddle()));
+            }
+
+            return connectionPoints;
+        }
         public virtual void Deselect()
         {
             Selected = false;

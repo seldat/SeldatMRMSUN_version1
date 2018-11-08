@@ -16,6 +16,10 @@ namespace SeldatMRMS.Management
 {
     public partial class RobotAgent : Form
     {
+        public event Action<Communication.Message> ZoneHandler;
+        public event Action<Communication.Message> AmclPoseHandler;
+        public event Action<Communication.Message> FinishStatesHandler;
+
         public RobotAgent()
         {
             InitializeComponent();
@@ -915,6 +919,11 @@ namespace SeldatMRMS.Management
         private void btn_cancel_Click(object sender, EventArgs e)
         {
             this.Hide();
+        }
+
+        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

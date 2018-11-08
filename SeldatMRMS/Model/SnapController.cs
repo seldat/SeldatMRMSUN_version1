@@ -4,10 +4,11 @@
 * http://www.codeproject.com/info/cpol10.aspx
 */
 
+using DevExpress.Mvvm.Native;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
+using System.Windows;
 using static SeldatMRMS.ShapeAnchor;
 
 namespace SeldatMRMS
@@ -129,7 +130,7 @@ namespace SeldatMRMS
             snapActions.Clear();
             nearElements.Clear();
             currentlyNear.Clear();
-            runningDelta = Point.Empty;
+            runningDelta = new Point();
             currentSnapAction = null;
         }
 
@@ -199,13 +200,13 @@ namespace SeldatMRMS
 
         public void DoUndoSnapActions(UndoStack undoStack)
         {
-            snapActions.ForEachReverse(act => DoUndoSnapAction(undoStack, act));
+            /*snapActions.ForEachReverse(act => DoUndoSnapAction(undoStack, act));
 
             if (currentSnapAction != null)
             {
                 DoUndoSnapAction(undoStack, currentSnapAction);
             }
-
+            */
             snapActions.Clear();
         }
 
@@ -242,12 +243,14 @@ namespace SeldatMRMS
                 if (nearConnectionPoint != null)
                 {
                     Point sourceConnectionPoint = si.LineConnectionPoint.Point;
-                    int neardx = nearConnectionPoint.Point.X - sourceConnectionPoint.X;     // calculate to match possible delta sign
-                    int neardy = nearConnectionPoint.Point.Y - sourceConnectionPoint.Y;
-                    int neardxsign = neardx.Sign();
-                    int neardysign = neardy.Sign();
-                    int deltaxsign = delta.X.Sign();
-                    int deltaysign = delta.Y.Sign();
+                    int neardx = (int)(nearConnectionPoint.Point.X - sourceConnectionPoint.X);     // calculate to match possible delta sign
+                    int neardy =(int) (nearConnectionPoint.Point.Y - sourceConnectionPoint.Y);
+                    double neardxsign = neardx.Sign();
+                    double neardysign = neardy.Sign();
+                    int deltaX = (int)delta.X;
+                    int deltaY = (int)delta.Y;
+                    double deltaxsign = deltaX.Sign();
+                    double deltaysign = deltaY.Sign();
 
                     // Are we attached already or moving toward the shape's connection point?
                     if ((neardxsign == 0 || deltaxsign == 0 || neardxsign == deltaxsign) &&
@@ -255,7 +258,7 @@ namespace SeldatMRMS
                     {
                         // If attached, are we moving away from the connection point to detach it?
                         // Keyboard overrides the velocity check so we immediately detach if moving away.
-                        if (neardxsign == 0 && neardxsign == 0 && ((delta.X.Abs() >= SNAP_DETACH_VELOCITY || delta.Y.Abs() >= SNAP_DETACH_VELOCITY) ||
+                        if (neardxsign == 0 && neardxsign == 0 && ((deltaX.Abs() >= SNAP_DETACH_VELOCITY || deltaY.Abs() >= SNAP_DETACH_VELOCITY) ||
                             (isByKeyPress && (neardxsign != deltaxsign || neardysign != deltaysign))))
                         {
                             // Detach:
@@ -321,11 +324,13 @@ namespace SeldatMRMS
                 if (nearConnectionPoint != null)
                 {
                     Point sourceConnectionPoint = si.LineConnectionPoint.Point;
-                    int neardx = nearConnectionPoint.Point.X - sourceConnectionPoint.X;     // calculate to match possible delta sign
-                    int neardy = nearConnectionPoint.Point.Y - sourceConnectionPoint.Y;
+                    int neardx = (int)(nearConnectionPoint.Point.X - sourceConnectionPoint.X);     // calculate to match possible delta sign
+                    int neardy = (int)(nearConnectionPoint.Point.Y - sourceConnectionPoint.Y);
                     si.NearConnectionPoint = nearConnectionPoint;
-                    si.AbsDx = neardx.Abs();
-                    si.AbsDy = neardy.Abs();
+                    int _neardx = neardx;
+                    int _neardy = neardy;
+                    si.AbsDx = _neardx.Abs();
+                    si.AbsDy = _neardy.Abs();
                 }
             }
         }
@@ -342,16 +347,16 @@ namespace SeldatMRMS
         {
             List<SnapInfo> nearElements = new List<SnapInfo>();
 
-            controller.Elements.Where(e => e != controller.SelectedElements[0] && e.OnScreen() && !e.IsConnector).ForEach(e =>
+            controller.Elements.Where(e => e != controller.SelectedElements[0] && !e.IsConnector).ForEach(e =>
             {
-                Rectangle checkRange = e.DisplayRectangle.Grow(SNAP_ELEMENT_RANGE);
+               BorderShape checkRange = e.DisplayRectangle;
 
                 connectionPoints.ForEach(cp =>
                 {
-                    if (checkRange.Contains(cp.Point))
+                   /* if (checkRange.Contains(cp.Point))
                     {
                         nearElements.Add(new SnapInfo() { NearElement = e, LineConnectionPoint = cp });
-                    }
+                    }*/
                 });
             });
 
@@ -363,7 +368,7 @@ namespace SeldatMRMS
             elements.ForEach(e =>
             {
                 e.ShowConnectionPoints = state;
-                controller.Redraw(e, CONNECTION_POINT_SIZE, CONNECTION_POINT_SIZE);
+               // controller.Redraw(e, CONNECTION_POINT_SIZE, CONNECTION_POINT_SIZE);
             });
         }
 

@@ -60,6 +60,13 @@ namespace SeldatMRMS
         {
             return Math.Sign(n);
         }
-
+        public static int Abs(this int n)
+        {
+            return Math.Abs(n);
+        }
+        public static bool IsNear(this Point p1, Point p2, int range)
+        {
+            return (p1.X - p2.X).Abs() <= range && (p1.Y - p2.Y).Abs() <= range;
+        }
     }
 }

@@ -4,7 +4,8 @@
 * http://www.codeproject.com/info/cpol10.aspx
 */
 
-using System.Drawing;
+
+using System.Windows;
 
 namespace SeldatMRMS
 {

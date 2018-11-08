@@ -188,6 +188,12 @@
     <Compile Include="CtrlCMD.cs" />
     <Compile Include="InterfaceServices\IGraphicElement.cs" />
     <Compile Include="InterfaceServices\IPropertyObject.cs" />
+    <Compile Include="Management\DoorServices\ControlDoorService.cs" />
+    <Compile Include="Management\DoorServices\DoorElevator.cs" />
+    <Compile Include="Management\DoorServices\DoorMezzamineReturn.cs" />
+    <Compile Include="Management\DoorServices\DoorMezzamineService.cs" />
+    <Compile Include="Management\DoorServices\DoorMezzamineUp.cs" />
+    <Compile Include="Management\DoorServices\DoorService.cs" />
     <Compile Include="Management\FormManager\ChargeStationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -230,6 +236,15 @@
     <Compile Include="Management\OrderManager\CameraAgentManager.cs" />
     <Compile Include="Management\OrderManager\Orders.cs" />
     <Compile Include="Management\PathTaskManager.cs" />
+    <Compile Include="Management\ProcedureServices\ControlService.cs" />
+    <Compile Include="Management\ProcedureServices\ProcedureBufferToHopper.cs" />
+    <Compile Include="Management\ProcedureServices\ProcedureBufferToMachine.cs" />
+    <Compile Include="Management\ProcedureServices\ProcedureControlServices.cs" />
+    <Compile Include="Management\ProcedureServices\ProcedureForkLiftToBuffer.cs" />
+    <Compile Include="Management\ProcedureServices\ProcedureManagementService.cs" />
+    <Compile Include="Management\ProcedureServices\ProcedureReturnPalletToGround.cs" />
+    <Compile Include="Management\ProcedureServices\ProcedureRobotToCharge.cs" />
+    <Compile Include="Management\ProcedureServices\ProcedureRobotToReady.cs" />
     <Compile Include="Management\RegistrationAgent.cs" />
     <Compile Include="Management\RobotManagent\ChargerAgent.cs" />
     <Compile Include="Management\RobotManagent\CommandSetsToRobotAgent.cs" />
@@ -284,6 +299,7 @@
     <Compile Include="Model\CombinationModels.Designer.cs">
       <DependentUpon>CombinationModels.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\Connection.cs" />
     <Compile Include="Model\ConnectionPoint.cs" />
     <Compile Include="Model\Connectors\Connector.cs" />
     <Compile Include="Model\Connectors\DiagonalConnector.cs" />
