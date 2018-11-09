@@ -237,14 +237,15 @@
     <Compile Include="Management\OrderManager\Orders.cs" />
     <Compile Include="Management\PathTaskManager.cs" />
     <Compile Include="Management\ProcedureServices\ControlService.cs" />
+    <Compile Include="Management\ProcedureServices\DBProcedureService.cs" />
     <Compile Include="Management\ProcedureServices\ProcedureBufferToHopper.cs" />
     <Compile Include="Management\ProcedureServices\ProcedureBufferToMachine.cs" />
     <Compile Include="Management\ProcedureServices\ProcedureControlServices.cs" />
     <Compile Include="Management\ProcedureServices\ProcedureForkLiftToBuffer.cs" />
     <Compile Include="Management\ProcedureServices\ProcedureManagementService.cs" />
     <Compile Include="Management\ProcedureServices\ProcedureReturnPalletToGround.cs" />
-    <Compile Include="Management\ProcedureServices\ProcedureRobotToCharge.cs" />
-    <Compile Include="Management\ProcedureServices\ProcedureRobotToReady.cs" />
+    <Compile Include="Management\ProcedureServices\ProcedureRobotToChargeReady.cs" />
+    <Compile Include="Management\ProcedureServices\RegisterProcedureService.cs" />
     <Compile Include="Management\RegistrationAgent.cs" />
     <Compile Include="Management\RobotManagent\ChargerAgent.cs" />
     <Compile Include="Management\RobotManagent\CommandSetsToRobotAgent.cs" />

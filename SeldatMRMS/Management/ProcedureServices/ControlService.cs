@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SeldatMRMS
 {
-    public class ControlService
+    public class ControlService:DBProcedureService
     {
        public ControlService(RobotAgent robot,DoorService doorService)
        {

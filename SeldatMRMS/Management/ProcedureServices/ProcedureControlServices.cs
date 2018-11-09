@@ -96,7 +96,31 @@ namespace SeldatMRMS
             BUFMAC_ROBOT_CAME_GOBACK_FRONTLINE,
             BUFMAC_ROBOT_RELEASED, // trả robot về robotmanagement để nhận quy trình mới
         }
+        protected enum RobotGoToChargeReady
+        {
+            ROBCHAREA_IDLE,
+            ROBCHAREA_ROBOT_GOTO_FRONTLINE_CHARGER_READYSTATION, // ROBOT cho tiến vào vị trí đầu line charge su dung laser
+            ROBCHAREA_ROBOT_FINISED_GOTO_CHARGER_READYSTATION, // hoàn thành đến vùng check in/ kiểm tra có robot đang làm việc vùng này và lấy vị trí line và pallet
+            ROBCHAREA_ROBOT_START_DETECTLINE_TO_CHARGER_READYSTATION, // bắt đầu dò line để đến vị trí line trong buffer
+            ROBCHAREA_ROBOT_WAIITNG_DETECTLINE_TO_CHARGER_READYSTATION, // đang đợi dò line để đến vị trí line trong buffer
+            ROBCHAREA_ROBOT_CAME_POSITION_LINE_CHARGER_READYSTATION, // đến vị trí line trong statio charge va ready / nếu là ready thì release robot két thúc quy trình/ nếu là sạc thì chuyển sang trạng thái kế tiếp
 
+            ROBCHAREA_REQUEST_INFORMATION_ROBOT_AND_CHARGER,
+            ROBCHAREA_REQUEST_INFORMATION_ERROR, // lỗi thông tin kết nối trạm sạc ...
+            ROBCHAREA_ROBOT_APPROACH_POINTCHARGE_CHARGER_READYSTATION, // cho tiếp cận đến vị trí sạc
+            ROBCHAREA_ROBOT_APPROACHED_POINTCHARGE_CHARGER_READYSTATION, // đã đến tiếp cận đến vị trí sạc
+
+            ROBCHAREA_CHARGER_CHECKSTATUS, //kiểm tra kết nối và trạng thái sạc
+            ROBCHAREA_ROBOT_ALLOW_CUTOFF_POWER_ROBOT, //cho phép cắt nguồn robot
+            ROBCHAREA_WAIITNG_CHARGEBATTERY, //dợi charge battery và thông tin giao tiếp server và trạm sạc
+            ROBCHAREA_FINISHED_CHARGEBATTERY, //Hoàn Thành charge battery và thông tin giao tiếp server và trạm sạc
+            ROBCHAREA_ROBOT_WAITING_RECONNECTING, //Robot mở nguồng và đợi connect lại
+            ROBCHAREA_ROBOT_CONNECTED_TO_SERVER, //robot đã connect lại với server
+            ROBCHAREA_ROBOT_CHECK_STATUS_OPERATION, //check điều kiện hoạt động
+            ROBCHAREA_ROBOT_STATUS_GOOD_OPERATION, //điều kiện hoạt động tốt 
+            ROBCHAREA_ROBOT_STATUS_BAD_OPERATION, //điều kiện hoạt động không tốt thông tin về procedure management chuyển sang quy trình xử lý sự cố
+            ROBCHAREA_ROBOT_RELEASED, // trả robot về robotmanagement để nhận quy trình mới
+        }
 
     }
 }
