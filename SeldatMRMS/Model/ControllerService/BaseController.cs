@@ -19,7 +19,7 @@ namespace SeldatMRMS
         // public virtual void DeselectCurrentSelectedElements() { }
         //  public virtual void DeselectGroupedElements() { }
         public ReadOnlyCollection<GraphicElement> Elements { get { return elements.AsReadOnly(); } }
-        public bool IsSnapToBeIgnored { get { return ((Control.ModifierKeys & Keys.Control) == Keys.Control) || UndoRedoIgnoreSnapCheck; } }
+      //  public bool IsSnapToBeIgnored { get { return ((Control.ModifierKeys & Keys.Control) == Keys.Control) || UndoRedoIgnoreSnapCheck; } }
 
         public virtual void DeselectElement(GraphicElement el) { }
         protected List<GraphicElement> elements;

@@ -11,6 +11,7 @@ namespace SeldatMRMS
     public class ProcedureControlServices:ControlService
     {
         public String ProcedureID { get; set; }
+        public String DeliveryInfo { get; set; }
         public struct ContentDatabase {}
         public virtual event Action<ProcedureControlServices> ReleaseProcedureHandler;
         public virtual event Action<ProcedureControlServices> ErrorProcedureHandler;

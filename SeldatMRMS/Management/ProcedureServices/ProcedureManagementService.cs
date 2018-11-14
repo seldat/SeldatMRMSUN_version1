@@ -19,6 +19,7 @@ namespace SeldatMRMS
             {
                 case ProcedureItemSelected.PROCEDURE_FORLIFT_TO_BUFFER:
 
+                    
                     break;
                 case ProcedureItemSelected.PROCEDURE_BUFFER_TO_MACHINE: break;
                 case ProcedureItemSelected.PROCEDURE_BUFFER_TO_HOPPER: break;

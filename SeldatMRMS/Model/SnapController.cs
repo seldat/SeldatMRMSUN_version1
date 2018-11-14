@@ -76,8 +76,8 @@ namespace SeldatMRMS
 
         public void Detach()
         {
-            connector.DisconnectShapeFromConnector(gripType);
-            connector.RemoveConnection(gripType);
+           /// connector.DisconnectShapeFromConnector(gripType);
+          //  connector.RemoveConnection(gripType);
         }
 
         public SnapAction Clone()
@@ -212,10 +212,10 @@ namespace SeldatMRMS
 
         protected SnapAction Snap(GripType type, Point delta, bool isByKeyPress)
         {
-            SnapAction action = null;
+          /*  SnapAction action = null;
             // Snapping permitted only when one and only one element is selected.
             if (controller.SelectedElements.Count != 1) return null;
-            if (controller.IsSnapToBeIgnored) return null;
+           // if (controller.IsSnapToBeIgnored) return null;
 
             // bool snapped = false;
             GraphicElement selectedElement = controller.SelectedElements[0];
@@ -285,9 +285,9 @@ namespace SeldatMRMS
                         }
                     }
                 }
-            }
+            }*/
 
-            return action;
+            return null;
         }
 
         protected void DoUndoSnapAction(UndoStack undoStack, SnapAction action)
@@ -337,10 +337,10 @@ namespace SeldatMRMS
 
         protected void DetachFromAllShapes(GraphicElement el)
         {
-            el.DisconnectShapeFromConnector(GripType.Start);
+        /*    el.DisconnectShapeFromConnector(GripType.Start);
             el.DisconnectShapeFromConnector(GripType.End);
             el.RemoveConnection(GripType.Start);
-            el.RemoveConnection(GripType.End);
+            el.RemoveConnection(GripType.End);*/
         }
 
         protected virtual List<SnapInfo> GetNearbyElements(IEnumerable<ConnectionPoint> connectionPoints)
