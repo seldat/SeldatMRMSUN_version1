@@ -1,35 +1,14 @@
-﻿using Newtonsoft.Json.Linq;
-using SeldatMRMS.Communication;
-using SeldatMRMS.Management.OrderManager;
-using SeldatMRMS.Management.RobotManagent;
-using SeldatMRMS.Management.TrafficManager;
-using SeldatMRMS.RobotView;
+﻿using SeldatMRMS.RobotView;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Forms;
-using System.Windows.Media.Media3D;
 
 namespace SeldatMRMS.Management
 {
-    public partial class RobotAgent : Form
+    class RobotAgentControlService:RobotAgentService
     {
-        public event Action<Communication.Message> ZoneHandler;
-        public event Action<Communication.Message> AmclPoseHandler;
-        public event Action<Communication.Message> FinishStatesHandler;
-
-        public RobotAgent()
-        {
-            InitializeComponent();
-            robotInfo = new RobotInfo();
-            rosSocket = new RosSocket();
-            checkRobotVersion("");
-            robotInfo.alive = false;
-            this.Text = NameID;
-            setFlag();
-        }
 
         private void setProperties()
         {
@@ -42,14 +21,7 @@ namespace SeldatMRMS.Management
             dGV_properties.Rows.Add("Good Energy At(%)", "25.0");
             dGV_properties.Rows.Add("Area ID", "0");
         }
-        public double RealWidth { get; set; }
-        public double RealHeigth { get; set; }
-        public double currentX;
-        public double currentY;
-        public double Angle;
-        public double L1;
-        public double L2;
-        public double H;
+
         public String IpAddress = "192.168.0.10";
         public String Hostname = "RobotID";
         public String NameID;
@@ -188,34 +160,7 @@ namespace SeldatMRMS.Management
         public ReadyArea readyArea;
         public OrderInfo orderInfo;
 
-        public virtual Point TopHeader()
-        {
-            double x = currentX + Math.Sqrt(Math.Abs(L1) * Math.Abs(L1) + Math.Abs(H / 2) * Math.Abs(H / 2)) * Math.Cos(Angle + Math.Atan2(H / 2, L1));
-            double y = currentY + Math.Sqrt(Math.Abs(L1) * Math.Abs(L1) + Math.Abs(H / 2) * Math.Abs(H / 2)) * Math.Sin(Angle + Math.Atan2(H / 2, L1));
-            return new Point(x, y);
-        }
-        public virtual Point BottomHeader()
-        {
-            double x = currentX + Math.Sqrt(Math.Abs(L1) * Math.Abs(L1) + Math.Abs(H / 2) * Math.Abs(H / 2)) * Math.Cos(Angle + Math.Atan2(-H / 2, L1));
-            double y = currentY + Math.Sqrt(Math.Abs(L1) * Math.Abs(L1) + Math.Abs(H / 2) * Math.Abs(H / 2)) * Math.Sin(Angle + Math.Atan2(-H / 2, L1));
-            return new Point(x, y);
-        }
-        public virtual Point TopTail()
-        {
-            double x = currentX + Math.Sqrt(Math.Abs(L2) * Math.Abs(L2) + Math.Abs(H / 2) * Math.Abs(H / 2)) * Math.Cos(Angle + Math.Atan2(-H / 2, -L2));
-            double y = currentY + Math.Sqrt(Math.Abs(L2) * Math.Abs(L2) + Math.Abs(H / 2) * Math.Abs(H / 2)) * Math.Sin(Angle + Math.Atan2(-H / 2, -L2));
-            return new Point(x, y);
-        }
-        public virtual Point BottomTail()
-        {
-            double x = currentX + Math.Sqrt(Math.Abs(L2) * Math.Abs(L2) + Math.Abs(H / 2) * Math.Abs(H / 2)) * Math.Cos(Angle + Math.Atan2(H / 2, -L2));
-            double y = currentY + Math.Sqrt(Math.Abs(L2) * Math.Abs(L2) + Math.Abs(H / 2) * Math.Abs(H / 2)) * Math.Sin(Angle + Math.Atan2(H / 2, -L2));
-            return new Point(x, y);
-        }
-        public Point[] RiskArea()
-        {
-            return new Point[4] { TopHeader(), BottomHeader(), TopTail(), BottomTail() };
-        }
+
         public void checkAliveTimeOut(Object sender, EventArgs e)
         {
 
@@ -842,7 +787,7 @@ namespace SeldatMRMS.Management
                 //pRobotAgent.InitialPostion.Y = Convert.ToDouble(txt_robotconfig_initialposY.Text);
                 //pRobotAgent.InitialHeadingAngle = Convert.ToDouble(txt_robotconfig_headingangle.Text);
                 RegistrationAgent.interfacePointer.updatePropertiesInformationrobot(this);
-            
+
                 this.Close();
             }
             catch { System.Windows.Forms.MessageBox.Show("Error Format Data "); }
@@ -855,7 +800,7 @@ namespace SeldatMRMS.Management
 
         private void timerConnectRosSocket_Tick(object sender, EventArgs e)
         {
-            rosSocket.seturl("ws://"+IpAddress+":9090");
+            rosSocket.seturl("ws://" + IpAddress + ":9090");
             if (rosSocket.isConnected)
             {
                 timerCheckConnection.Start();
@@ -929,7 +874,7 @@ namespace SeldatMRMS.Management
 
         private void btn_update_Click_1(object sender, EventArgs e)
         {
-         
+
         }
 
         private void dGV_properties_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -953,11 +898,6 @@ namespace SeldatMRMS.Management
         private void btn_cancel_Click(object sender, EventArgs e)
         {
             this.Hide();
-        }
-
-        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
         }
     }
 }

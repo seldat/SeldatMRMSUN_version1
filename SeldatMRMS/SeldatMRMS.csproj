@@ -256,6 +256,9 @@
     <Compile Include="Management\RobotManagent\RobotAgent.Designer.cs">
       <DependentUpon>RobotAgent.cs</DependentUpon>
     </Compile>
+    <Compile Include="Management\RobotManagent\RobotAgentControl.cs" />
+    <Compile Include="Management\RobotManagent\RobotAgentControlService.cs" />
+    <Compile Include="Management\RobotManagent\RobotBaseService.cs" />
     <Compile Include="Management\RobotManagent\RobotProperties.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -263,6 +266,8 @@
       <DependentUpon>RobotProperties.cs</DependentUpon>
     </Compile>
     <Compile Include="Management\RobotManagent\RobotAgentService.cs" />
+    <Compile Include="Management\RobotManagent\RobotUnity.cs" />
+    <Compile Include="Management\RobotManagent\TrafficRobotAgent.cs" />
     <Compile Include="Management\SaveModel.cs" />
     <Compile Include="Management\TrafficManager\AreaManager.cs" />
     <Compile Include="Management\TrafficManager\CommandSetMultiRobotAgents.cs" />

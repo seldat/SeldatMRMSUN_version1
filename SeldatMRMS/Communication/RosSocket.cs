@@ -68,8 +68,6 @@ namespace SeldatMRMS.Communication
         {
             Task.Run(() =>
             {
-
-                
                 try
                 {
                     if (!flagKeepAConnection)
