@@ -250,6 +250,7 @@
     <Compile Include="Management\RobotManagent\ChargerAgent.cs" />
     <Compile Include="Management\RobotManagent\CommandSetsToRobotAgent.cs" />
     <Compile Include="Management\RobotManagent\DataTranformation.cs" />
+    <Compile Include="Management\RobotManagent\ExtensionRobotService.cs" />
     <Compile Include="Management\RobotManagent\RobotAgent.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -257,7 +258,6 @@
       <DependentUpon>RobotAgent.cs</DependentUpon>
     </Compile>
     <Compile Include="Management\RobotManagent\RobotAgentControl.cs" />
-    <Compile Include="Management\RobotManagent\RobotAgentControlService.cs" />
     <Compile Include="Management\RobotManagent\RobotBaseService.cs" />
     <Compile Include="Management\RobotManagent\RobotProperties.cs">
       <SubType>Form</SubType>

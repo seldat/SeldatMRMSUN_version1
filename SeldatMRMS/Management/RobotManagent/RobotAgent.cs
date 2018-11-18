@@ -303,7 +303,7 @@ namespace SeldatMRMS.Management
         {
             if (this.rosSocket != null)
             {
-                this.rosSocket.close();
+               // this.rosSocket.close();
                 //this.rosSocket = null;
             }
         }
@@ -382,7 +382,7 @@ namespace SeldatMRMS.Management
         {
             try
             {
-                this.rosSocket.close();
+               // this.rosSocket.close();
                 robotInfo.alive = false;
             }
             catch { }
@@ -855,7 +855,7 @@ namespace SeldatMRMS.Management
 
         private void timerConnectRosSocket_Tick(object sender, EventArgs e)
         {
-            rosSocket.seturl("ws://"+IpAddress+":9090");
+            /*rosSocket.seturl("ws://"+IpAddress+":9090");
             if (rosSocket.isConnected)
             {
                 timerCheckConnection.Start();
@@ -865,7 +865,7 @@ namespace SeldatMRMS.Management
             else
             {
                 rosSocket.connect();
-            }
+            }*/
         }
 
         private void timerCheckConnection_Tick(object sender, EventArgs e)
@@ -889,7 +889,7 @@ namespace SeldatMRMS.Management
                 }
             }*/
             Console.WriteLine("here check");
-            if (rosSocket != null)
+           /* if (rosSocket != null)
             {
                 if (rosSocket.webSocket != null)
                 {
@@ -918,7 +918,7 @@ namespace SeldatMRMS.Management
                     timerConnectRosSocket.Start();
 
                 }
-            }
+            }*/
         }
 
         private void RobotAgent_Load(object sender, EventArgs e)

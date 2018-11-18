@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using SeldatMRMS.Management.RobotManagent;
 /*L1=10
 L2=5
 H=6
@@ -31,40 +32,20 @@ plot([0 X3],[0 Y3],'.g-')*/
 // These three points must contact to the risk areas
 namespace SeldatMRMS.Management
 {
-    public class PriorityLevel
-    {
-        public PriorityLevel()
-        {
-            this.OnMainRoad = 0;
-            this.OnAuthorizedPriorityProcedure = false;
-        }
-        public int OnMainRoad { get; set; } //  Index on Road;
-        public bool OnAuthorizedPriorityProcedure { get; set; }
 
-    }
-    public class RobotAgentService
+    public class RobotAgentService:RobotAgentControl
     {
         
         public event Action<Communication.Message> ZoneHandler;
         public event Action<Communication.Message> AmclPoseHandler;
         public event Action<Communication.Message> FinishStatesHandler;
-        public double RealWidth { get; set; }
-        public double RealHeigth { get; set; }
-        public double currentX;
-        public double currentY;
-        public double Angle;
-        public double L1;
-        public double L2;
-        public double H;
-        public PriorityLevel registePriorityLevel;
         public RobotAgentService()
         {
-            registePriorityLevel = new PriorityLevel();
         }
         public virtual Point TopHeader()
         {
-            double x = currentX + Math.Sqrt(Math.Abs(L1) * Math.Abs(L1) + Math.Abs(H / 2) * Math.Abs(H / 2)) * Math.Cos(Angle + Math.Atan2(H / 2, L1));
-            double y = currentY+ Math.Sqrt(Math.Abs(L1) * Math.Abs(L1) + Math.Abs(H / 2) * Math.Abs(H / 2)) * Math.Sin(Angle + Math.Atan2(H / 2, L1));
+            double x = properties.pose.Position.X + Math.Sqrt(Math.Abs(properties.L1) * Math.Abs(properties.L1) + Math.Abs(properties.RobotWidth / 2) * Math.Abs(properties.RobotWidth / 2)) * Math.Cos(properties.pose.AngleW + Math.Atan2(properties.RobotWidth / 2, properties.L1));
+            double y = properties.pose.Position.Y + Math.Sqrt(Math.Abs(properties.L1) * Math.Abs(properties.L1) + Math.Abs(properties.RobotWidth / 2) * Math.Abs(properties.RobotWidth / 2)) * Math.Sin(properties.pose.AngleW + Math.Atan2(properties.RobotWidth / 2, properties.L1));
             return new Point(x, y);
         }
         public virtual Point MiddleHeader()
@@ -73,8 +54,8 @@ namespace SeldatMRMS.Management
         }
         public virtual Point BottomHeader()
         {
-            double x = currentX + Math.Sqrt(Math.Abs(L1) * Math.Abs(L1) + Math.Abs(H / 2) * Math.Abs(H / 2)) * Math.Cos(Angle + Math.Atan2(-H / 2, L1));
-            double y = currentY + Math.Sqrt(Math.Abs(L1) * Math.Abs(L1) + Math.Abs(H / 2) * Math.Abs(H / 2)) * Math.Sin(Angle + Math.Atan2(-H / 2, L1));
+            double x = properties.pose.Position.X + Math.Sqrt(Math.Abs(properties.L1) * Math.Abs(properties.L1) + Math.Abs(properties.RobotWidth / 2) * Math.Abs(properties.RobotWidth / 2)) * Math.Cos(properties.pose.AngleW + Math.Atan2(-properties.RobotWidth / 2, properties.L1));
+            double y = properties.pose.Position.Y + Math.Sqrt(Math.Abs(properties.L1) * Math.Abs(properties.L1) + Math.Abs(properties.RobotWidth / 2) * Math.Abs(properties.RobotWidth / 2)) * Math.Sin(properties.pose.AngleW + Math.Atan2(-properties.RobotWidth / 2, properties.L1));
             return new Point(x, y);
         }
         public virtual Point LeftSide()
@@ -83,8 +64,8 @@ namespace SeldatMRMS.Management
         }
         public virtual Point TopTail()
         {
-            double x = currentX + Math.Sqrt(Math.Abs(L2) * Math.Abs(L2) + Math.Abs(H / 2) * Math.Abs(H / 2)) * Math.Cos(Angle + Math.Atan2(-H / 2, -L2));
-            double y = currentY + Math.Sqrt(Math.Abs(L2) * Math.Abs(L2) + Math.Abs(H / 2) * Math.Abs(H / 2)) * Math.Sin(Angle + Math.Atan2(-H / 2, -L2));
+            double x = properties.pose.Position.X + Math.Sqrt(Math.Abs(properties.L2) * Math.Abs(properties.L2) + Math.Abs(properties.RobotWidth / 2) * Math.Abs(properties.RobotWidth / 2)) * Math.Cos(properties.pose.AngleW + Math.Atan2(-properties.RobotWidth / 2, -properties.L2));
+            double y = properties.pose.Position.Y + Math.Sqrt(Math.Abs(properties.L2) * Math.Abs(properties.L2) + Math.Abs(properties.RobotWidth / 2) * Math.Abs(properties.RobotWidth / 2)) * Math.Sin(properties.pose.AngleW + Math.Atan2(-properties.RobotWidth / 2, -properties.L2));
             return new Point(x, y);
         }
         public virtual Point MiddleTail()
@@ -93,8 +74,8 @@ namespace SeldatMRMS.Management
         }
         public virtual Point BottomTail()
         {
-            double x = currentX + Math.Sqrt(Math.Abs(L2) * Math.Abs(L2) + Math.Abs(H / 2) * Math.Abs(H / 2)) * Math.Cos(Angle + Math.Atan2(H / 2, -L2));
-            double y = currentY + Math.Sqrt(Math.Abs(L2) * Math.Abs(L2) + Math.Abs(H / 2) * Math.Abs(H / 2)) * Math.Sin(Angle + Math.Atan2(H / 2, -L2));
+            double x = properties.pose.Position.X + Math.Sqrt(Math.Abs(properties.L2) * Math.Abs(properties.L2) + Math.Abs(properties.RobotWidth / 2) * Math.Abs(properties.RobotWidth / 2)) * Math.Cos(properties.pose.AngleW + Math.Atan2(properties.RobotWidth / 2, -properties.L2));
+            double y = properties.pose.Position.Y + Math.Sqrt(Math.Abs(properties.L2) * Math.Abs(properties.L2) + Math.Abs(properties.RobotWidth / 2) * Math.Abs(properties.RobotWidth / 2)) * Math.Sin(properties.pose.AngleW + Math.Atan2(properties.RobotWidth / 2, -properties.L2));
             return new Point(x, y);
         }
         public virtual Point RightSide()
@@ -122,6 +103,31 @@ namespace SeldatMRMS.Management
         public Point[] FullRiskArea()
         {
             return new Point[4] { TopHeader(), BottomHeader(), TopTail(), BottomTail() };
+        }
+        public bool FindHeaderIsCloseRiskArea(Point p)
+        {
+            return ExtensionRobotService.CalDistance(TopHeader(),p)<properties.distanceIntersection || ExtensionRobotService.CalDistance(BottomHeader(), p) < properties.distanceIntersection || ExtensionRobotService.CalDistance(MiddleHeader(), p) < properties.distanceIntersection ? true:false;
+           
+        }
+        public bool FindHeaderIntersectsFullRiskArea(Point p)
+        {
+            return ExtensionRobotService.IsInPolygon(FullRiskArea(),p);
+        }
+        public bool FindHeaderIntersectsRiskAreaHeader(Point p)
+        {
+            return ExtensionRobotService.IsInPolygon(RiskAreaHeader(), p);
+        }
+        public bool FindHeaderIntersectsRiskAreaTail(Point p)
+        {
+            return ExtensionRobotService.IsInPolygon(RiskAreaTail(), p);
+        }
+        public bool FindHeaderIntersectsRiskAreaLeftSide(Point p)
+        {
+            return ExtensionRobotService.IsInPolygon(RiskAreaLeftSide(), p);
+        }
+        public bool FindHeaderIntersectsRiskAreaRightSide(Point p)
+        {
+            return ExtensionRobotService.IsInPolygon(RiskAreaRightSide(), p);
         }
 
     }

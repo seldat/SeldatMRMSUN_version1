@@ -2,6 +2,7 @@
 using SeldatMRMS.Communication;
 using SeldatMRMS.Management;
 using SeldatMRMS.Management.OrderManager;
+using SeldatMRMS.Management.RobotManagent;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -441,7 +442,7 @@ namespace SeldatMRMS.Model
         }
         private void timerCheckConnection_Tick(object sender, EventArgs e)
         {
-            if (rosSocket != null)
+           /* if (rosSocket != null)
             {
                 if(rosSocket.webSocket != null)
                 {
@@ -468,12 +469,12 @@ namespace SeldatMRMS.Model
                     timerConnectRosSocket.Start();
                     
                 }
-            }
+            }*/
             
         }
         private void timerConnectRosSocket_Tick(object sender, EventArgs e)
         {
-                rosSocket.seturl("ws://" + properties.camera.ip + ":" + properties.camera.port);
+              /*  rosSocket.seturl("ws://" + properties.camera.ip + ":" + properties.camera.port);
                 if (rosSocket.isConnected)
                 {
                     int subscription_id = rosSocket.Subscribe("/pallet_status_" + properties.camera.id, "std_msgs/string", subscriptionHandler);
@@ -483,7 +484,7 @@ namespace SeldatMRMS.Model
                 else
                 {
                     rosSocket.connect();
-                }
+                }*/
         }
         private void StationModel_FormClosed(object sender, FormClosedEventArgs e)
         {

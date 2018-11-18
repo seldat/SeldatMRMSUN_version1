@@ -23,89 +23,68 @@ using WebSocketSharp;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Text;
+using SeldatMRMS.Communication;
 using System.Windows;
-using System.Threading.Tasks;
 
-namespace SeldatMRMS.Communication
+namespace SeldatMRMS.Management.RobotManagent
 {
     public class RosSocket
     {
         #region Public
-        public const int STATE_CONNECTED = 1;
-        public const int STATE_DISCONNECTED = 2;
-        public const int STATE_CONNECTING = 3;
-        public delegate void OnClosedCallBack(String e);
-        public OnClosedCallBack _OnClosedCallBack;
-        public String ipAddress;
-        public int stateCommunication = STATE_DISCONNECTED;
-        public bool isConnected = false;
-        public class TypeName
+        private bool IsDisposed = false;
+        protected virtual void OnClosedEvent(object sender,CloseEventArgs e)
         {
-            public const String TYPE_CENTRALMANAGER = "CentralManager";
-            public const String TYPE_ROBOTAGENT = "RobotAgent";
+            if (!IsDisposed)
+            {
+                Close();
+                webSocket.Connect();
+            }
         }
-        public RosSocket(string url)
-        {
-            this.ipAddress = url;
-            connect();
-        }
+        protected virtual void OnOpenedEvent() { }
+        public String url { get; set; }
         public RosSocket()
         {
-        }
-        public void onClosed(Object sender, CloseEventArgs e)
-        {
-            stateCommunication = STATE_DISCONNECTED;
-            isConnected = false;
-        }
-        public void onOpened()
-        {
-            stateCommunication = STATE_CONNECTED;
-            isConnected = true;
-        }
 
-        bool flagKeepAConnection = false;
-        public void connect()
+        }
+        public void Start(string url)
         {
-            Task.Run(() =>
-            {
-                try
-                {
-                    if (!flagKeepAConnection)
-                    {
-                        flagKeepAConnection = true;
-                        if (webSocket != null)
-                            webSocket = null;
-                        webSocket = new WebSocket(this.ipAddress);
-                        webSocket.OnMessage += (sender, e) => recievedOperation((WebSocket)sender, e);
-                        webSocket.OnOpen += (sender, e) => onOpened();
-                        webSocket.Connect();
-                        flagKeepAConnection = false;
-                    }
-                }
-                catch { flagKeepAConnection = false; }
+            this.url = url;
+            IsDisposed = false;
+            webSocket = new WebSocket(url);
+            webSocket.OnMessage += (sender, e) => recievedOperation((WebSocket)sender, e);
+            webSocket.OnClose += (sender, e) => OnClosedEvent((WebSocket)sender, e);
+            webSocket.OnOpen += (sender, e) => OnOpenedEvent();
+            webSocket.Connect();
            
-            });
         }
-        public void seturl(String url)
+        public virtual void Dispose()
         {
-            this.ipAddress = url;
+            if (webSocket != null)
+            {
+                IsDisposed = true;
+                Close();
+                webSocket.OnMessage -= (sender, e) => recievedOperation((WebSocket)sender, e);
+                webSocket.OnClose -= (sender, e) => OnClosedEvent((WebSocket)sender, e);
+                webSocket.OnOpen -= (sender, e) => OnOpenedEvent();
+                webSocket = null;
+            }
         }
-        public void close()
+        public void Close()
         {
-            Task.Run(() => {
-                while (publishers.Count > 0)
-                    Unadvertize(publishers.First().Key);
+            while (publishers.Count > 0)
+            {
+                Unadvertize(publishers.First().Key);
+            }
 
-                while (subscribers.Count > 0)
-                    Unsubscribe(subscribers.First().Key);
-                webSocket.Close();
-                isConnected = false;
-                stateCommunication = STATE_DISCONNECTED;
-            });
+            while (subscribers.Count > 0)
+                Unsubscribe(subscribers.First().Key);
+
+            webSocket.Close();
         }
 
         public delegate void ServiceHandler(object obj);
         public delegate void MessageHandler(Message message);
+
         public int Advertise(string topic, string type)
         {
             int id = generateId();
@@ -205,7 +184,7 @@ namespace SeldatMRMS.Communication
             }
         }
 
-        public WebSocket webSocket;
+        private WebSocket webSocket;
         private Dictionary<int, Publisher> publishers = new Dictionary<int, Publisher>();
         private Dictionary<int, Subscriber> subscribers = new Dictionary<int, Subscriber>();
         private Dictionary<int, ServiceCaller> serviceCallers = new Dictionary<int, ServiceCaller>();
@@ -215,8 +194,8 @@ namespace SeldatMRMS.Communication
             JObject operation = Deserialize(e.RawData);
 
 #if DEBUG
-            //Console.WriteLine("Recieved " + operation.GetOperation());
-            //Console.WriteLine(JsonConvert.SerializeObject(operation, Formatting.Indented));
+            Console.WriteLine("Recieved " + operation.GetOperation());
+            Console.WriteLine(JsonConvert.SerializeObject(operation, Formatting.Indented));
 #endif
 
             switch (operation.GetOperation())
@@ -266,7 +245,7 @@ namespace SeldatMRMS.Communication
         private void sendOperation(Operation operation)
         {
 #if DEBUG
-            // Console.WriteLine(JsonConvert.SerializeObject(operation, Formatting.Indented));
+            Console.WriteLine(JsonConvert.SerializeObject(operation, Formatting.Indented));
 #endif
             webSocket.SendAsync(Serialize(operation), null);
         }
@@ -291,6 +270,6 @@ namespace SeldatMRMS.Communication
         {
             return Guid.NewGuid().GetHashCode();
         }
-        #endregion
+        #endregion       
     }
 }

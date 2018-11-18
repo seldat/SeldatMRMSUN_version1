@@ -15,6 +15,7 @@ using SeldatMRMS.Management.TrafficManager;
 using SeldatMRMS.Management.FormManager;
 using System.Net;
 using System.Net.Sockets;
+using SeldatMRMS.Management.RobotManagent;
 
 namespace SeldatMRMS
 {
@@ -95,11 +96,13 @@ namespace SeldatMRMS
         //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         //======================FUNCTION========================
         //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+        RobotUnity robot;
         public MainWindow()
         {
             InitializeComponent();
-
-            
+            robot=new RobotUnity();
+            robot.Start("ws://192.168.1.121:9090");
+            /*
             IServiceManager.canvasController = new CanvasController(map);
             ToolBoxController toolController = new ToolBoxController(map);
             MouseController mouseController = new MouseController(map);
@@ -111,7 +114,7 @@ namespace SeldatMRMS
             RegistrationAgent.interfacePointer.addANewRobotAgent += ptaskManager.addANewRobotAgent;
             RegistrationAgent.interfacePointer.updateRobotAgentProperties += ptaskManager.UpdateRobotAgentProperties;
             MyImageSource = "C:\\Users\\luat.tran\\source\\repos\\SeldatMRMS\\SeldatMRMS\\Resources\\select_op.png";
-            PreviewKeyDown += new KeyEventHandler(HandleEsc);
+            PreviewKeyDown += new KeyEventHandler(HandleEsc);*/
         }
 
         private void HandleEsc(object sender, KeyEventArgs e)
@@ -1120,7 +1123,7 @@ namespace SeldatMRMS
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-           
+           // robot.Dispose();
             System.Windows.Forms.DialogResult pwarming = System.Windows.Forms.MessageBox.Show("Save changes to the following items ?", "Warning", System.Windows.Forms.MessageBoxButtons.YesNo, System.Windows.Forms.MessageBoxIcon.Warning);
             if (pwarming == System.Windows.Forms.DialogResult.Yes)
             {
@@ -1168,11 +1171,12 @@ namespace SeldatMRMS
         }
         private void iprun_Click(object sender, RoutedEventArgs e)
         {
-            if (CheckPermission())
+            robot.SendPoseStamped(new RobotAgentControl.Pose(10,10,90));
+            /* if (CheckPermission())
             {
                 TrafficForm ptf = new TrafficForm();
                 ptf.ShowDialog();
-            }
+            }*/
         }
         private void groupbox_Click(object sender, RoutedEventArgs e)
         {

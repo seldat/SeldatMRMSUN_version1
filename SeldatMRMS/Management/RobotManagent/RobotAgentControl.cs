@@ -1,14 +1,57 @@
 ﻿using SeldatMRMS.Communication;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Media.Media3D;
+using WebSocketSharp;
 
 namespace SeldatMRMS.Management.RobotManagent
 {
     public class RobotAgentControl:RosSocket
     {
+        public class Pose
+        {
+           public Pose(Point p,double AngleW) // Angle gốc
+            {
+                this.Position = p;
+                this.AngleW = AngleW;
+           }
+           public Pose(double X,double Y, double AngleW) // Angle gốc
+           {
+                this.Position = new Point(X,Y);
+                this.AngleW = AngleW;
+           }
+           public void Destroy() // hủy vị trí robot để robot khác có thể làm việc trong quá trình detect
+            {
+                this.Position = new Point(-1000, -1000);
+                this.AngleW = 0;
+            }
+           public Point Position { get; set; }
+           public double AngleW { get; set; } // radian
+        }
+        public enum RobotSpeedLevel
+        {
+            ROBOT_SPEED_NORMAL = 100,
+            ROBOT_SPEED_SLOW = 50,
+            ROBOT_SPEED_STOP = 0,
+        }
+        public struct PropertiesRobotUnity
+        {
+            [CategoryAttribute("ID Settings"), DescriptionAttribute("Name of the customer")]
+            public double distanceIntersection { get; set; }
+            public Pose pose{ get; set; }
+            public String url;
+            public bool IsConnected { get; set; }
+            public double L1 { get; set;}
+            public double L2 { get; set;}
+            public double RobotWidth {get; set;}
+            public double RobotLength {get; set;}
+
+        }
         public struct ParamsRosSocket
         {
             public int publication_RobotInfo;
@@ -18,74 +61,72 @@ namespace SeldatMRMS.Management.RobotManagent
             public int publication_DriveRobot;
             public int publication_BatteryRegister;
             public int publication_EmergencyRobot;
-            public int publication_CtrlRobotDriving;
-            public int publication_gotoPalletArea;
-            public int publication_serverRobotGotToLineDockingArea;
-            public int publication_serverRobotGotToPalletDockingArea;
-            public int publication_serverRobotGotToLinePutAwayArea;
-            public int publication_serverRobotGotToPalletPutAwayArea;
-            public int publication_responsedStandPosInsideReadyArea;
-            public int publication_serverRobotGotToCheckInDockingArea;
-            public int publication_serverRobotGotToCheckInPutAwayArea;
-            public int publication_serverRobotGotToFrontReadyArea;
-            public int publication_serverResetErrorDetectLine;
-            public int publication_checkAliveTimeOut;
-            public int publication_serverRobotGotToChargeArea;
-            public int publication_serverRequestRobotDetectLine;
+            public int publication_ctrlrobotdriving;
+            public int publication_robotnavigation;
             public int publication_linedetectionctrl;
+            public int publication_checkAliveTimeOut;
         }
         ParamsRosSocket paramsRosSocket;
+        public PropertiesRobotUnity properties;
+        protected virtual void SupervisorTraffic() { }
         public RobotAgentControl()
         {
 
         }
         public void createRosTerms()
         {
-            /*int subscription_robotInfo = this.Subscribe("/amcl_pose", "geometry_msgs/PoseWithCovarianceStamped", robotInfoHandler);
-            paramsRosSocket.publication_RobotInfo = this.Advertise("/serverRobotInfoCallBack", "std_msgs/String");
-            int subscription_robotParams = this.Subscribe("/robotParams", "std_msgs/String", robotParamsHandler);
-            paramsRosSocket.publication_RobotParams = this.Advertise("/serverRobotParamsCallBack", "std_msgs/String");
-            int subscription_ctrlRobotHardwareStatus = this.Subscribe("/ctrlRobotHardwareStatusResponse", "std_msgs/String", ctrlRobotHardwareStatusHandler);
-            paramsRosSocket.publication_CtrlRobotHardware = this.Advertise("/serverCtrlRobotHardwareCallBack", "std_msgs/String");
-            int subscription_DriveRobotStatus = this.Subscribe("/driveRobotStatusResponse", "std_msgs/String", driveRobotStatusHandler);
-            paramsRosSocket.publication_DriveRobot = this.Advertise("/serverDriveRobotCallBack", "std_msgs/String");
-            int subscription_batteryRegister = this.Subscribe("/batteryRegisterResponse", "std_msgs/String", batteryRegisterHandler);
-            paramsRosSocket.publication_BatteryRegister = this.Advertise("/serverBatteryRegisterCallBack", "std_msgs/String");
-            int subscription_emergencyRobot = this.Subscribe("/emergencyRobotResponse", "std_msgs/String", emergencyRobotHandler);
-            paramsRosSocket.publication_EmergencyRobot = this.Advertise("/serverEmergencyRobotCallBack", "std_msgs/String");
-
-            int subscription_batteryvol = this.Subscribe("/battery_vol", "std_msgs/Float32", batteryVolHandler);
-            //
-            paramsRosSocket.publication_gotoPalletArea = this.Advertise("servergotoPalletAreaCallBack", "std_msgs/String");
-            // Directly publish to control robot
-            paramsRosSocket.publication_CtrlRobotDriving = this.Advertise("/ctrlRobotDriving", "std_msgs/Int32");
-
-            // publish docking area location
-            paramsRosSocket.publication_serverRobotGotToLineDockingArea = this.Advertise("/serverRobotGotToLineDockingArea", "std_msgs/String");
-            paramsRosSocket.publication_serverRobotGotToPalletDockingArea = this.Advertise("/serverRobotGotToPalletDockingArea", "std_msgs/String");
-
-            paramsRosSocket.publication_serverRobotGotToCheckInDockingArea = this.Advertise("/serverRobotGotToCheckInDockingArea", "std_msgs/String");
-            // publish putaway area location
-            paramsRosSocket.publication_serverRobotGotToLinePutAwayArea = this.Advertise("/serverRobotGotToLinePutAwayArea", "std_msgs/String");
-            paramsRosSocket.publication_serverRobotGotToPalletPutAwayArea = this.Advertise("/serverRobotGotToPalletPutAwayArea", "std_msgs/String");
-
-            paramsRosSocket.publication_serverRobotGotToCheckInPutAwayArea = this.Advertise("/serverRobotGotToCheckInPutAwayArea", "std_msgs/String");
-
-            paramsRosSocket.publication_serverRobotGotToFrontReadyArea = this.Advertise("/serverRobotGotToFrontReadyArea", "std_msgs/String");
-            paramsRosSocket.publication_serverRobotGotToChargeArea = this.Advertise("/serverRobotGotToChargeArea", "std_msgs/String");
-            int subscription_requestPutAwayArea = this.Subscribe("/requestPutAwayArea", "std_msgs/String", requestPutAwayAreaHandler);
-            // subcribe Zone Checker
-            int subscription_zoneChecker = this.Subscribe("/zoneChecker", "std_msgs/String", zoneCheckerHandler);
-            int subscription_finishedStates = this.Subscribe("/finishedStates", "std_msgs/Int32", finishedStatesHandler);
-            // int subscription_test = this.Subscribe("/pallet_status_4", "std_msgs/String", testHandler);
-            int subscription_robotStatus = this.Subscribe("/robotStatus", "std_msgs/Int32", robotStatusHandler);
-            int subscription_readyAreaPos = this.Subscribe("/requestReadyAreaPos", "std_msgs/Int32", readyAreaPosHandler);
-            paramsRosSocket.publication_responsedStandPosInsideReadyArea = this.Advertise("/responsedStandPosInsideReadyArea", "std_msgs/String");
-            paramsRosSocket.publication_serverResetErrorDetectLine = this.Advertise("/serverResetErrorDetectLine", "std_msgs/Int32");
-            paramsRosSocket.publication_checkAliveTimeOut = this.Advertise("/checkAliveTimeOut", "std_msgs/String");
-            paramsRosSocket.publication_serverRequestRobotDetectLine = this.Advertise("/serverRequestRobotDetectLine", "std_msgs/String");
+            int subscription_robotInfo = this.Subscribe("/amcl_pose", "geometry_msgs/PoseWithCovarianceStamped", AmclPoseHandler);
+            paramsRosSocket.publication_ctrlrobotdriving = this.Advertise("/ctrlRobotDriving", "std_msgs/Int32");
+            int subscription_finishedStates = this.Subscribe("/finishedStates", "std_msgs/Int32", FinishedStatesHandler);
+            paramsRosSocket.publication_robotnavigation = this.Advertise("/robot_navigation", "geometry_msgs/PoseStamped");
+            paramsRosSocket.publication_checkAliveTimeOut = this.Advertise("/checkAliveTimeOut", "std_msgs/String"); 
             paramsRosSocket.publication_linedetectionctrl = this.Advertise("/linedetectionctrl", "std_msgs/Int32");
-            */   
+        }
+        private void AmclPoseHandler(Communication.Message message)
+        {
+            GeometryPoseWithCovarianceStamped standardString = (GeometryPoseWithCovarianceStamped)message;
+            double posX = (double)standardString.pose.pose.position.x;
+            double posY = (double)standardString.pose.pose.position.y;
+            double posThetaZ = (double)standardString.pose.pose.orientation.z;
+            double posThetaW = (double)standardString.pose.pose.orientation.w;
+            double posTheta = (double)2 * Math.Atan2(posThetaZ, posThetaW);
+            properties.pose.Position = new Point(posX,posY);
+            properties.pose.AngleW = posTheta;
+        }
+        private void FinishedStatesHandler(Communication.Message message)
+        {
+        }
+        protected override void OnClosedEvent(object sender, CloseEventArgs e) {
+            properties.IsConnected = false;
+            base.OnClosedEvent(sender,e);
+        }
+        public void SendPoseStamped(Pose pose)
+        {
+            GeometryPoseStamped data=new GeometryPoseStamped();
+            data.pose.position.x =(float)pose.Position.X;
+            data.pose.position.y = (float)pose.Position.Y;
+            data.pose.position.z = 0;
+            double theta = pose.AngleW;
+            data.pose.orientation.z = (float)Math.Sin(theta / 2);
+            data.pose.orientation.w = (float)Math.Cos(theta / 2);
+            this.Publish(paramsRosSocket.publication_robotnavigation,data);
+
+        }
+        public void SetSpeed(RobotSpeedLevel robotspeed )
+        {
+            StandardInt32 msg = new StandardInt32();
+            msg.data = Convert.ToInt32(robotspeed);
+            this.Publish(paramsRosSocket.publication_ctrlrobotdriving,msg);
+        }
+        protected override void OnOpenedEvent() {
+            properties.IsConnected = true;
+            Console.WriteLine("connected");
+            createRosTerms();
+        }
+        public override void Dispose()
+        {
+            properties.pose.Destroy();
+            base.Dispose();
         }
     }
 }
