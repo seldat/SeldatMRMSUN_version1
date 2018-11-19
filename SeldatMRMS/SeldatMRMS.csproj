@@ -259,6 +259,7 @@
     </Compile>
     <Compile Include="Management\RobotManagent\RobotAgentControl.cs" />
     <Compile Include="Management\RobotManagent\RobotBaseService.cs" />
+    <Compile Include="Management\RobotManagent\RobotManagementService.cs" />
     <Compile Include="Management\RobotManagent\RobotProperties.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -279,6 +280,7 @@
     <Compile Include="Management\TrafficManager\TrafficForm.Designer.cs">
       <DependentUpon>TrafficForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Management\UnityService\UnityManagementService.cs" />
     <Compile Include="Model\Behaviors\DragBehavior.cs" />
     <Compile Include="Model\ChargerModel.cs">
       <SubType>Form</SubType>

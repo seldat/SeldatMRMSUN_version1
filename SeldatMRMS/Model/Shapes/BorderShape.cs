@@ -54,6 +54,7 @@ namespace SeldatMRMS
             ptrans.X = -this.Width/2;
             ptrans.Y = -this.Height/2;
            // this.RenderTransform = ptrans;
+
             location = p;
         }
         public Point TopLeft()

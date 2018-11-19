@@ -44,8 +44,8 @@ namespace SeldatMRMS.Management
         }
         public virtual Point TopHeader()
         {
-            double x = properties.pose.Position.X + Math.Sqrt(Math.Abs(properties.L1) * Math.Abs(properties.L1) + Math.Abs(properties.RobotWidth / 2) * Math.Abs(properties.RobotWidth / 2)) * Math.Cos(properties.pose.AngleW + Math.Atan2(properties.RobotWidth / 2, properties.L1));
-            double y = properties.pose.Position.Y + Math.Sqrt(Math.Abs(properties.L1) * Math.Abs(properties.L1) + Math.Abs(properties.RobotWidth / 2) * Math.Abs(properties.RobotWidth / 2)) * Math.Sin(properties.pose.AngleW + Math.Atan2(properties.RobotWidth / 2, properties.L1));
+            double x = properties.pose.Position.X + Math.Sqrt(Math.Abs(properties.L1) * Math.Abs(properties.L1) + Math.Abs(properties.WS / 2) * Math.Abs(properties.WS / 2)) * Math.Cos(properties.pose.AngleW + Math.Atan2(properties.WS / 2, properties.L1));
+            double y = properties.pose.Position.Y + Math.Sqrt(Math.Abs(properties.L1) * Math.Abs(properties.L1) + Math.Abs(properties.WS / 2) * Math.Abs(properties.WS / 2)) * Math.Sin(properties.pose.AngleW + Math.Atan2(properties.WS / 2, properties.L1));
             return new Point(x, y);
         }
         public virtual Point MiddleHeader()
@@ -54,8 +54,8 @@ namespace SeldatMRMS.Management
         }
         public virtual Point BottomHeader()
         {
-            double x = properties.pose.Position.X + Math.Sqrt(Math.Abs(properties.L1) * Math.Abs(properties.L1) + Math.Abs(properties.RobotWidth / 2) * Math.Abs(properties.RobotWidth / 2)) * Math.Cos(properties.pose.AngleW + Math.Atan2(-properties.RobotWidth / 2, properties.L1));
-            double y = properties.pose.Position.Y + Math.Sqrt(Math.Abs(properties.L1) * Math.Abs(properties.L1) + Math.Abs(properties.RobotWidth / 2) * Math.Abs(properties.RobotWidth / 2)) * Math.Sin(properties.pose.AngleW + Math.Atan2(-properties.RobotWidth / 2, properties.L1));
+            double x = properties.pose.Position.X + Math.Sqrt(Math.Abs(properties.L1) * Math.Abs(properties.L1) + Math.Abs(properties.WS / 2) * Math.Abs(properties.WS / 2)) * Math.Cos(properties.pose.AngleW + Math.Atan2(-properties.WS / 2, properties.L1));
+            double y = properties.pose.Position.Y + Math.Sqrt(Math.Abs(properties.L1) * Math.Abs(properties.L1) + Math.Abs(properties.WS / 2) * Math.Abs(properties.WS / 2)) * Math.Sin(properties.pose.AngleW + Math.Atan2(-properties.WS / 2, properties.L1));
             return new Point(x, y);
         }
         public virtual Point LeftSide()
@@ -64,8 +64,8 @@ namespace SeldatMRMS.Management
         }
         public virtual Point TopTail()
         {
-            double x = properties.pose.Position.X + Math.Sqrt(Math.Abs(properties.L2) * Math.Abs(properties.L2) + Math.Abs(properties.RobotWidth / 2) * Math.Abs(properties.RobotWidth / 2)) * Math.Cos(properties.pose.AngleW + Math.Atan2(-properties.RobotWidth / 2, -properties.L2));
-            double y = properties.pose.Position.Y + Math.Sqrt(Math.Abs(properties.L2) * Math.Abs(properties.L2) + Math.Abs(properties.RobotWidth / 2) * Math.Abs(properties.RobotWidth / 2)) * Math.Sin(properties.pose.AngleW + Math.Atan2(-properties.RobotWidth / 2, -properties.L2));
+            double x = properties.pose.Position.X + Math.Sqrt(Math.Abs(properties.L2) * Math.Abs(properties.L2) + Math.Abs(properties.WS / 2) * Math.Abs(properties.WS / 2)) * Math.Cos(properties.pose.AngleW + Math.Atan2(-properties.WS / 2, -properties.L2));
+            double y = properties.pose.Position.Y + Math.Sqrt(Math.Abs(properties.L2) * Math.Abs(properties.L2) + Math.Abs(properties.WS / 2) * Math.Abs(properties.WS / 2)) * Math.Sin(properties.pose.AngleW + Math.Atan2(-properties.WS / 2, -properties.L2));
             return new Point(x, y);
         }
         public virtual Point MiddleTail()
@@ -74,8 +74,8 @@ namespace SeldatMRMS.Management
         }
         public virtual Point BottomTail()
         {
-            double x = properties.pose.Position.X + Math.Sqrt(Math.Abs(properties.L2) * Math.Abs(properties.L2) + Math.Abs(properties.RobotWidth / 2) * Math.Abs(properties.RobotWidth / 2)) * Math.Cos(properties.pose.AngleW + Math.Atan2(properties.RobotWidth / 2, -properties.L2));
-            double y = properties.pose.Position.Y + Math.Sqrt(Math.Abs(properties.L2) * Math.Abs(properties.L2) + Math.Abs(properties.RobotWidth / 2) * Math.Abs(properties.RobotWidth / 2)) * Math.Sin(properties.pose.AngleW + Math.Atan2(properties.RobotWidth / 2, -properties.L2));
+            double x = properties.pose.Position.X + Math.Sqrt(Math.Abs(properties.L2) * Math.Abs(properties.L2) + Math.Abs(properties.WS / 2) * Math.Abs(properties.WS / 2)) * Math.Cos(properties.pose.AngleW + Math.Atan2(properties.WS / 2, -properties.L2));
+            double y = properties.pose.Position.Y + Math.Sqrt(Math.Abs(properties.L2) * Math.Abs(properties.L2) + Math.Abs(properties.WS/ 2) * Math.Abs(properties.WS / 2)) * Math.Sin(properties.pose.AngleW + Math.Atan2(properties.WS / 2, -properties.L2));
             return new Point(x, y);
         }
         public virtual Point RightSide()

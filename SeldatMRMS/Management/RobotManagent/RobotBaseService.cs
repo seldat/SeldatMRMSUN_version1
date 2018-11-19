@@ -8,5 +8,11 @@ namespace SeldatMRMS.Management.RobotManagent
 {
     class RobotBaseService:TrafficRobotAgent
     {
+        public bool SelectedATask { get; set; }
+        public struct LoadedConfigureInformation
+        {
+            public bool IsLoadedStatus { get; set; }
+            public String ErrorContent { get; set; }
+        }
     }
 }

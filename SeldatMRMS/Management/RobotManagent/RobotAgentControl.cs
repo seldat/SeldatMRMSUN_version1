@@ -42,16 +42,27 @@ namespace SeldatMRMS.Management.RobotManagent
         public struct PropertiesRobotUnity
         {
             [CategoryAttribute("ID Settings"), DescriptionAttribute("Name of the customer")]
-            public double distanceIntersection { get; set; }
+            public String NameID;
+            public double DistanceIntersection { get; set; }
             public Pose pose{ get; set; }
-            public String url;
+            public String URL;
             public bool IsConnected { get; set; }
             public double L1 { get; set;}
             public double L2 { get; set;}
-            public double RobotWidth {get; set;}
-            public double RobotLength {get; set;}
+            public double WS { get; set; }
+            public double Width {get; set;}
+            public double Length {get; set;}
+            public double Height { get; set; }
+            [CategoryAttribute("Laser"), DescriptionAttribute("Name of the customer")]
+            public String LaserOperation;
+            [CategoryAttribute("Battery"), DescriptionAttribute("Name of the customer")]
+            public String CurrentLevel;
+            public bool CriticalLevel;
 
         }
+        public virtual void updateparams(){}
+        public virtual void OnOccurencyTrigger() { }
+        public virtual void OnBatteryLowTrigger() { }
         public struct ParamsRosSocket
         {
             public int publication_RobotInfo;

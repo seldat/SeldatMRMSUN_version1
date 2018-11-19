@@ -120,5 +120,10 @@ namespace SeldatMRMS.Management
                 TrafficBehavior();
             }
         }
+        public void DetermineOperatingArea()
+        {
+            // dùng tọa độ xá định khu vực hoạt động
+            // cập nhật chỉ số ưu tiên
+        }
     }
 }
