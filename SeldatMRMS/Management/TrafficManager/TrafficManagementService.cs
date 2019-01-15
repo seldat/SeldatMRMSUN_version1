@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DoorControllerService
+namespace SeldatMRMS.Management.TrafficManager
 {
-    public class DoorElevator:DoorService
+    class TrafficManagementService
     {
     }
 }

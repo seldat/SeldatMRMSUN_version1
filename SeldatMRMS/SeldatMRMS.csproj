@@ -188,8 +188,8 @@
     <Compile Include="CtrlCMD.cs" />
     <Compile Include="InterfaceServices\IGraphicElement.cs" />
     <Compile Include="InterfaceServices\IPropertyObject.cs" />
-    <Compile Include="Management\DoorServices\ControlDoorService.cs" />
     <Compile Include="Management\DoorServices\DoorElevator.cs" />
+    <Compile Include="Management\DoorServices\DoorManagementService.cs" />
     <Compile Include="Management\DoorServices\DoorMezzamineReturn.cs" />
     <Compile Include="Management\DoorServices\DoorMezzamineService.cs" />
     <Compile Include="Management\DoorServices\DoorMezzamineUp.cs" />
@@ -280,6 +280,8 @@
     <Compile Include="Management\TrafficManager\TrafficForm.Designer.cs">
       <DependentUpon>TrafficForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Management\TrafficManager\TrafficManagementService.cs" />
+    <Compile Include="Management\UnityService\UnityBaseService.cs" />
     <Compile Include="Management\UnityService\UnityManagementService.cs" />
     <Compile Include="Model\Behaviors\DragBehavior.cs" />
     <Compile Include="Model\ChargerModel.cs">

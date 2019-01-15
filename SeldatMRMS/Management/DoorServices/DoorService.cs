@@ -19,6 +19,8 @@ namespace DoorControllerService
         // The response from the remote device.  
         private static String response = String.Empty;
         public static Socket client=null;
+        public String Ip { get; set; }
+        public Int32 Port { get; set; }
         public class StateObject
         {
             // Client socket.  
@@ -36,6 +38,14 @@ namespace DoorControllerService
                 new AsyncCallback(ConnectCallback), client);
 
             connectDone.WaitOne();
+        }
+        public void Close()
+        {
+            if(client!=null)
+            {
+                client.Shutdown(SocketShutdown.Both);
+                client.Close();
+            }
         }
         private static void ConnectCallback(IAsyncResult ar)
         {
@@ -142,8 +152,10 @@ namespace DoorControllerService
                 Console.WriteLine(e.ToString());
             }
         }
-        private static void StartClient(String ip, int port)
+        private void StartClient(String ip,Int32 port)
         {
+            this.Ip = ip;
+            this.Port = port;
             // Connect to a remote device.  
             try
             {

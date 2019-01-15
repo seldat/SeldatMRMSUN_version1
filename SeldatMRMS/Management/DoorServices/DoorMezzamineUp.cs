@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DoorControllerService
 {
-    class DoorMezzamineUp:DoorMezzamineService
+    public class DoorMezzamineUp:DoorMezzamineService
     {
         public DoorMezzamineUp()
         {
